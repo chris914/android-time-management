@@ -2,6 +2,7 @@ package com.android.homework.timemanagement.ui;
 
 import android.content.Context;
 
+import com.android.homework.timemanagement.interactor.TodoInteractor;
 import com.android.homework.timemanagement.ui.main.MainPresenter;
 
 import javax.inject.Singleton;
@@ -30,7 +31,7 @@ public class UIModule {
 
     @Provides
     @Singleton
-    public MainPresenter provideMainPresenter(ToastManager toastManager) {
-        return new MainPresenter(toastManager);
+    public MainPresenter provideMainPresenter(ToastManager toastManager, TodoInteractor todoInteractor) {
+        return new MainPresenter(toastManager, todoInteractor);
     }
 }
