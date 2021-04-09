@@ -1,4 +1,5 @@
 package com.android.homework.timemanagement.ui.main;
 
-public class MainScreen {
+public interface MainScreen {
+    void callbackAfterToastShown(String text);
 }
