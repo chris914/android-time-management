@@ -6,19 +6,21 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.homework.timemanagement.R;
 import com.android.homework.timemanagement.di.TimeManagementApplication;
 import com.android.homework.timemanagement.model.Task;
+import com.android.homework.timemanagement.ui.NavigationSupportedActivity;
 import com.android.homework.timemanagement.ui.ToastManager;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity implements MainScreen {
+public class MainActivity extends NavigationSupportedActivity implements MainScreen {
 
     @Inject
     MainPresenter mainPresenter;
@@ -26,7 +28,8 @@ public class MainActivity extends AppCompatActivity implements MainScreen {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        FrameLayout fl = findViewById(R.id.content_frame);
+        getLayoutInflater().inflate(R.layout.activity_main, fl);
         TimeManagementApplication.injector.inject(this);
 
         findViewById(R.id.btnLoadTodos).setOnClickListener(v -> {

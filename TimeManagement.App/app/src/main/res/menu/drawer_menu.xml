@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/addNewTodo"
+            android:icon="@drawable/ic_stat_name"
+            android:title="Add New Todo" />
+        <item android:id="@+id/todoList"
+            android:icon="@drawable/ic_stat_name"
+            android:title="Todo List" />
+        <item android:id="@+id/calendar"
+            android:icon="@drawable/ic_stat_name"
+            android:title="Calendar" />
+    </group>
+</menu>
