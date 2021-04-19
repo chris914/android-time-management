@@ -36,6 +36,20 @@ public class MainPresenter extends Presenter<MainScreen> {
         EventBus.getDefault().unregister(this);
     }
 
+    public void addNewTodo()
+    {
+        // callback to screen, as this requires invoking a new activity.
+        screen.addTodo();
+    }
+
+    public void openTodo(int todoId)
+    {
+        todoInteractor.getTask(todoId);
+
+        // callback to screen, as this requires invoking a new activity.
+        screen.openTodoScreen(todoId);
+    }
+
     public void loadTodoList()
     {
         todoInteractor.getTasks();

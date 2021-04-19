@@ -7,4 +7,6 @@ import java.util.List;
 public interface MainScreen {
     void callbackAfterToastShown(String text);
     void showTodos(List<Task> tasks);
+    void addTodo();
+    void openTodoScreen(int todoId);
 }

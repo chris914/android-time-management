@@ -2,6 +2,7 @@ package com.android.homework.timemanagement.ui.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.android.homework.timemanagement.di.TimeManagementApplication;
 import com.android.homework.timemanagement.model.Task;
 import com.android.homework.timemanagement.ui.NavigationSupportedActivity;
 import com.android.homework.timemanagement.ui.ToastManager;
+import com.android.homework.timemanagement.ui.details.TodoDetailsActivity;
 
 import java.util.List;
 
@@ -34,6 +36,10 @@ public class MainActivity extends NavigationSupportedActivity implements MainScr
 
         findViewById(R.id.btnLoadTodos).setOnClickListener(v -> {
             mainPresenter.loadTodoList();
+        });
+
+        findViewById(R.id.btnAddTodo).setOnClickListener(v -> {
+            mainPresenter.addNewTodo();
         });
     }
 
@@ -65,7 +71,21 @@ public class MainActivity extends NavigationSupportedActivity implements MainScr
             tv.setTextColor(Color.WHITE);
             tv.setLayoutParams(lparams);
             tv.setText("ID: " + t.getId() + " Content: " + t.getContent());
+            tv.setOnClickListener(v -> {
+                mainPresenter.openTodo(0);
+            });
             ((LinearLayout) findViewById(R.id.linearLayoutTodos)).addView(tv);
         }
+    }
+
+    @Override
+    public void addTodo() {
+        Intent i = new Intent(this, TodoDetailsActivity.class);
+        this.startActivity(i);
+    }
+
+    @Override
+    public void openTodoScreen(int todoId) {
+
     }
 }
