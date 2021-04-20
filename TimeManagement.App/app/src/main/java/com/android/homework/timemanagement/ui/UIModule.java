@@ -2,6 +2,9 @@ package com.android.homework.timemanagement.ui;
 
 import android.content.Context;
 
+import com.android.homework.timemanagement.interactor.TodoInteractor;
+import com.android.homework.timemanagement.ui.main.MainPresenter;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -23,6 +26,12 @@ public class UIModule {
     @Provides
     @Singleton
     public ToastManager provideToastManager() {
-        return new ToastManager();
+        return new ToastManager(context);
+    }
+
+    @Provides
+    @Singleton
+    public MainPresenter provideMainPresenter(ToastManager toastManager, TodoInteractor todoInteractor) {
+        return new MainPresenter(toastManager, todoInteractor);
     }
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TimeManagement</string>
+    <string name="drawer_open">Res1</string>
+    <string name="drawer_closed">Res2</string>
 </resources>
