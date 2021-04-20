@@ -2,6 +2,8 @@ package com.android.homework.timemanagement.di;
 
 import com.android.homework.timemanagement.interactor.InteractorModule;
 import com.android.homework.timemanagement.interactor.TodoInteractor;
+import com.android.homework.timemanagement.ui.calendar.CalendarActivity;
+import com.android.homework.timemanagement.ui.calendar.CalendarPresenter;
 import com.android.homework.timemanagement.ui.details.TodoDetailsActivity;
 import com.android.homework.timemanagement.ui.details.TodoDetailsPresenter;
 import com.android.homework.timemanagement.ui.main.MainActivity;
@@ -23,4 +25,7 @@ public interface TimeManagementApplicationComponent {
 
     void inject(TodoDetailsActivity detailsActivity);
     void inject(TodoDetailsPresenter detailsPresenter);
+
+    void inject(CalendarActivity calendarActivity);
+    void inject(CalendarPresenter calendarPresenter);
 }

@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.android.homework.timemanagement.R;
+import com.android.homework.timemanagement.ui.calendar.CalendarActivity;
+import com.android.homework.timemanagement.ui.details.TodoDetailsActivity;
+import com.android.homework.timemanagement.ui.main.MainActivity;
 import com.google.android.material.navigation.NavigationView;
 
 public class NavigationSupportedActivity extends AppCompatActivity {
@@ -37,9 +40,13 @@ public class NavigationSupportedActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
 
                     case R.id.calendar:
-                        // Intent anIntent = new Intent(getApplicationContext(), TheClassYouWantToLoad.class);
-                        // startActivity(loadPlayer);
-                        // drawerLayout.closeDrawers();
+                        openActivityAndCloseDrawer(CalendarActivity.class);
+                        break;
+                    case R.id.addNewTodo:
+                        openActivityAndCloseDrawer(TodoDetailsActivity.class);
+                        break;
+                    case R.id.todoList:
+                        openActivityAndCloseDrawer(MainActivity.class);
                         break;
 
                 }
@@ -47,6 +54,13 @@ public class NavigationSupportedActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void openActivityAndCloseDrawer(Class c)
+    {
+        Intent intent = new Intent(getApplicationContext(), c);
+        startActivity(intent);
+        drawerLayout.closeDrawers();
     }
 
     @Override

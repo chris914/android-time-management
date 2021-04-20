@@ -7,6 +7,7 @@ import com.android.homework.timemanagement.model.Task;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TodoInteractor {
@@ -36,6 +37,12 @@ public class TodoInteractor {
         GetTodoEvent event = new GetTodoEvent();
         event.setTasks(tasks);
         EventBus.getDefault().post(event);
+    }
+
+    public void getTasks(Date startDate, Date endDate )
+    {
+        // Get tasks which are in between the two dates
+        // send the result via eventbus
     }
 
     public void getTask(int todoId)
