@@ -1,23 +1,23 @@
 package com.android.homework.timemanagement.ui.details;
 
 import com.android.homework.timemanagement.di.TimeManagementApplication;
+import com.android.homework.timemanagement.interactor.CommentInteractor;
 import com.android.homework.timemanagement.interactor.TodoInteractor;
+import com.android.homework.timemanagement.model.Comment;
 import com.android.homework.timemanagement.ui.Presenter;
-import com.android.homework.timemanagement.ui.ToastManager;
-import com.android.homework.timemanagement.ui.main.MainScreen;
-
-import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
 public class TodoDetailsPresenter extends Presenter<TodoDetailsScreen> {
     private final TodoInteractor todoInteractor;
+    private final CommentInteractor commentInteractor;
     private boolean isEditMode;
 
     @Inject
-    public TodoDetailsPresenter(TodoInteractor todoInteractor)
+    public TodoDetailsPresenter(TodoInteractor todoInteractor, CommentInteractor commentInteractor)
     {
         this.todoInteractor = todoInteractor;
+        this.commentInteractor = commentInteractor;
         this.isEditMode = false;
     }
 
@@ -53,12 +53,14 @@ public class TodoDetailsPresenter extends Presenter<TodoDetailsScreen> {
 
     public void showComments()
     {
-        todoInteractor.getCommentsForTask(0);
     }
 
-    public void addComment(String commentText)
+    public void addComment(Long taskId, String commentText)
     {
-        todoInteractor.addCommentForTask(0, commentText);
+        Comment comment = new Comment();
+        comment.setContent(commentText);
+        comment.setTaskId(taskId);
+        commentInteractor.addComment(comment);
     }
 
     public void showInCalendar()

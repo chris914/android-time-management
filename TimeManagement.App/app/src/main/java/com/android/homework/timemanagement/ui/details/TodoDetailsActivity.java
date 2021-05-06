@@ -2,13 +2,18 @@ package com.android.homework.timemanagement.ui.details;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.android.homework.timemanagement.R;
+import com.android.homework.timemanagement.data.AppDatabase;
+import com.android.homework.timemanagement.data.FavoriteTodo;
 import com.android.homework.timemanagement.di.TimeManagementApplication;
 import com.android.homework.timemanagement.ui.NavigationSupportedActivity;
 import com.android.homework.timemanagement.ui.main.MainPresenter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,6 +28,15 @@ public class TodoDetailsActivity extends NavigationSupportedActivity implements 
         FrameLayout fl = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.activity_todo_details, fl);
         TimeManagementApplication.injector.inject(this);
+
+        findViewById(R.id.btnEdit).setOnClickListener(v -> {
+            // presenter.addComment(4725478509L, "New Comment");
+        });
+
+        findViewById(R.id.btnDelete).setOnClickListener(v -> {
+
+            // presenter.addComment(4725478509L, "New Comment");
+        });
     }
 
     @Override

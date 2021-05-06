@@ -2,7 +2,10 @@ package com.android.homework.timemanagement.ui;
 
 import android.content.Context;
 
+import com.android.homework.timemanagement.data.DatabaseManager;
+import com.android.homework.timemanagement.interactor.CommentInteractor;
 import com.android.homework.timemanagement.interactor.TodoInteractor;
+import com.android.homework.timemanagement.ui.details.TodoDetailsPresenter;
 import com.android.homework.timemanagement.ui.main.MainPresenter;
 
 import javax.inject.Singleton;
@@ -25,13 +28,19 @@ public class UIModule {
 
     @Provides
     @Singleton
-    public ToastManager provideToastManager() {
-        return new ToastManager(context);
+    public MainPresenter provideMainPresenter(TodoInteractor todoInteractor) {
+        return new MainPresenter(todoInteractor);
     }
 
     @Provides
     @Singleton
-    public MainPresenter provideMainPresenter(ToastManager toastManager, TodoInteractor todoInteractor) {
-        return new MainPresenter(toastManager, todoInteractor);
+    public TodoDetailsPresenter provideTodoDetailsPresenter(TodoInteractor todoInteractor, CommentInteractor commentInteractor) {
+        return new TodoDetailsPresenter(todoInteractor, commentInteractor);
+    }
+
+    @Provides
+    @Singleton
+    public DatabaseManager provideDatabaseManager() {
+        return new DatabaseManager(context);
     }
 }
