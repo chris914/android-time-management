@@ -2,16 +2,14 @@ package com.android.homework.timemanagement.interactor.event;
 
 import com.android.homework.timemanagement.model.Task;
 
-public class GetTodoEvent {
+public class CloseTodoEvent {
     private int code;
-    private Task task;
     private Throwable throwable;
 
-    public GetTodoEvent() { }
+    public CloseTodoEvent() { }
 
-    public GetTodoEvent(int code, Task task) {
+    public CloseTodoEvent(int code) {
         this.code = code;
-        this.task = task;
     }
 
     public int getCode() {
@@ -20,13 +18,5 @@ public class GetTodoEvent {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
     }
 }

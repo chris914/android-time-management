@@ -1,14 +1,26 @@
 package com.android.homework.timemanagement.interactor;
 
 import com.android.homework.timemanagement.di.TimeManagementApplication;
+import com.android.homework.timemanagement.interactor.event.AddTodoEvent;
+import com.android.homework.timemanagement.interactor.event.CloseTodoEvent;
+import com.android.homework.timemanagement.interactor.event.DeleteTodoEvent;
 import com.android.homework.timemanagement.interactor.event.GetTodoEvent;
+import com.android.homework.timemanagement.interactor.event.GetTodosEvent;
+import com.android.homework.timemanagement.interactor.event.UpdateTodoEvent;
 import com.android.homework.timemanagement.model.Task;
+import com.android.homework.timemanagement.network.NetworkConfig;
+import com.android.homework.timemanagement.network.TaskApi;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TodoInteractor {
 
@@ -17,51 +29,147 @@ public class TodoInteractor {
     }
     private List<Task> tasks;
 
+    @Inject
+    TaskApi taskApi;
+
     public void getTasks()
     {
-        // Mock list.
-        tasks = new ArrayList<>();
+        Call<List<Task>> call = taskApi.getTasks(NetworkConfig.AUTH, NetworkConfig.DEFAULT_PROJECT_ID);
+        try {
+            call.enqueue(new Callback<List<Task>>() {
+                @Override
+                public void onResponse(Call<List<Task>> call, Response<List<Task>> response) {
+                    GetTodosEvent event = new GetTodosEvent();
+                    event.setTasks(response.body());
+                    EventBus.getDefault().post(event);
+                }
 
-        Task testTask = new Task();
-        testTask.setId("0");
-        testTask.setContent("Test Task");
-        testTask.setPriority(2);
-        Task testTask2 = new Task();
-        testTask2.setId("1");
-        testTask2.setContent("Test Task 2");
-        testTask2.setPriority(1);
-
-        tasks.add(testTask);
-        tasks.add(testTask2);
-
-        GetTodoEvent event = new GetTodoEvent();
-        event.setTasks(tasks);
-        EventBus.getDefault().post(event);
+                @Override
+                public void onFailure(Call<List<Task>> call, Throwable t) {
+                }
+            });
+        }
+        catch (Exception e) {
+        }
     }
 
-    public void getTasks(Date startDate, Date endDate )
+    public void getTasks(Date startDate, Date endDate)
     {
         // Get tasks which are in between the two dates
         // send the result via eventbus
     }
 
-    public void getTask(int todoId)
+    public void getTask(long taskId)
     {
-        // get single task, send it via eventbus
+        Call<Task> call = taskApi.getTaskById(NetworkConfig.AUTH, taskId);
+        try {
+            call.enqueue(new Callback<Task>() {
+                @Override
+                public void onResponse(Call<Task> call, Response<Task> response) {
+                    GetTodoEvent event = new GetTodoEvent();
+                    event.setTask(response.body());
+                    EventBus.getDefault().post(event);
+                }
+
+                @Override
+                public void onFailure(Call<Task> call, Throwable t) {
+
+                }
+            });
+        }
+        catch (Exception e) {
+        }
     }
 
-    public void deleteTask(int todoId)
+    public void addTask(Task task)
     {
+        Call<Void> call = taskApi.addTask(NetworkConfig.AUTH, task);
+        try {
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    AddTodoEvent event = new AddTodoEvent();
+                    event.setCode(response.code());
+                    EventBus.getDefault().post(event);
+                }
 
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
+        }
+        catch (Exception e)
+        {
+
+        }
     }
 
-    public void getCommentsForTask(int todoId)
+    public void closeTask(long taskId)
     {
+        Call<Void> call = taskApi.closeTask(NetworkConfig.AUTH, taskId);
+        try {
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    CloseTodoEvent event = new CloseTodoEvent();
+                    event.setCode(response.code());
+                    EventBus.getDefault().post(event);
+                }
 
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
+        }
+        catch (Exception e)
+        {
+
+        }
     }
 
-    public void addCommentForTask(int todoId, String commentText)
+    public void updateTask(long taskId, Task task)
     {
+        Call<Void> call = taskApi.updateTask(NetworkConfig.AUTH, taskId, task);
+        try {
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    UpdateTodoEvent event = new UpdateTodoEvent();
+                    event.setCode(response.code());
+                    EventBus.getDefault().post(event);
+                }
 
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
+        }
+        catch (Exception e) {
+        }
+    }
+
+    public void deleteTask(long taskId)
+    {
+        Call<Void> call = taskApi.deleteTask(NetworkConfig.AUTH, taskId);
+        try {
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    DeleteTodoEvent event = new DeleteTodoEvent();
+                    event.setCode(response.code());
+                    EventBus.getDefault().post(event);
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
+        }
+        catch (Exception e) {
+        }
     }
 }

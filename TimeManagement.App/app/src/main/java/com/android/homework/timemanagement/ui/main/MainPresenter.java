@@ -1,25 +1,33 @@
 package com.android.homework.timemanagement.ui.main;
 
+import com.android.homework.timemanagement.data.DatabaseManager;
+import com.android.homework.timemanagement.data.QueryFavoritesEvent;
 import com.android.homework.timemanagement.di.TimeManagementApplication;
 import com.android.homework.timemanagement.interactor.TodoInteractor;
-import com.android.homework.timemanagement.interactor.event.GetTodoEvent;
+import com.android.homework.timemanagement.interactor.event.GetTodosEvent;
+import com.android.homework.timemanagement.model.Task;
+import com.android.homework.timemanagement.network.NetworkConfig;
 import com.android.homework.timemanagement.ui.Presenter;
-import com.android.homework.timemanagement.ui.ToastManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class MainPresenter extends Presenter<MainScreen> {
-    ToastManager toastManager;
     TodoInteractor todoInteractor;
 
+    List<Task> currentTasks;
+
     @Inject
-    public MainPresenter(ToastManager toastManager, TodoInteractor todoInteractor)
+    DatabaseManager databaseManager;
+
+    @Inject
+    public MainPresenter(TodoInteractor todoInteractor)
     {
-        this.toastManager = toastManager;
         this.todoInteractor = todoInteractor;
     }
 
@@ -38,8 +46,14 @@ public class MainPresenter extends Presenter<MainScreen> {
 
     public void addNewTodo()
     {
+        Task t = new Task();
+        t.setContent("Sample task");
+        t.setProjectId(NetworkConfig.DEFAULT_PROJECT_ID);
+
+        todoInteractor.addTask(t);
         // callback to screen, as this requires invoking a new activity.
         screen.addTodo();
+
     }
 
     public void openTodo(int todoId)
@@ -55,16 +69,25 @@ public class MainPresenter extends Presenter<MainScreen> {
         todoInteractor.getTasks();
     }
 
-    public void makeToast(String text)
+    public void addToFavorite(Long taskId)
     {
-        toastManager.makeText(text);
-        screen.callbackAfterToastShown(text);
+        // TODO: call back "better" than reloading the whole list.
+        databaseManager.addToFavorites(taskId);
+        this.loadTodoList();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(final GetTodoEvent event) {
+    public void onEventMainThread(final GetTodosEvent event) {
         if (screen != null) {
-                screen.showTodos(event.getTasks());
-            }
+            currentTasks = event.getTasks();
+            databaseManager.getFavorites();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(final QueryFavoritesEvent event) {
+        if (screen != null) {
+            screen.showTodos(currentTasks, event.getTasks());
+        }
     }
 }

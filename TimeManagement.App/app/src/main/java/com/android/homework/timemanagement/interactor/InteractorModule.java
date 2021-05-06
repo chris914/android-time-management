@@ -10,4 +10,9 @@ public class InteractorModule {
     public TodoInteractor provideTodoInteractor() {
         return new TodoInteractor();
     }
+
+    @Provides
+    public CommentInteractor provideCommentInteractor() {
+        return new CommentInteractor();
+    }
 }

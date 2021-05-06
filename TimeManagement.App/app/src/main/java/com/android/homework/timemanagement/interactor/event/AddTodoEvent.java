@@ -2,14 +2,14 @@ package com.android.homework.timemanagement.interactor.event;
 
 import com.android.homework.timemanagement.model.Task;
 
-public class GetTodoEvent {
+public class AddTodoEvent {
     private int code;
     private Task task;
     private Throwable throwable;
 
-    public GetTodoEvent() { }
+    public AddTodoEvent() { }
 
-    public GetTodoEvent(int code, Task task) {
+    public AddTodoEvent(int code, Task task) {
         this.code = code;
         this.task = task;
     }

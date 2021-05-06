@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.homework.timemanagement">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".di.TimeManagementApplication"
         android:allowBackup="true"
